@@ -153,11 +153,11 @@ function pickRandomMovie() {
 
     const visibleItems = 3;
     const centerOffset = Math.floor(visibleItems / 2);
-    const cycles = 3;
 
+    // On répète un peu la liste pour que ça donne du mouvement
     const extendedList = [];
-    for (let i = 0; i < cycles; i++) extendedList.push(...movies);
-    extendedList.push(...movies.slice(0, visibleItems)); // Buffer
+    for (let i = 0; i < 20; i++) extendedList.push(...movies); // répéter beaucoup pour "remplir"
+    extendedList.push(...movies.slice(0, visibleItems)); // buffer de fin
 
     extendedList.forEach(title => {
       const div = document.createElement("div");
@@ -170,22 +170,27 @@ function pickRandomMovie() {
       const item = wrapper.querySelector(".roulette-item");
       const itemHeight = item?.offsetHeight || 38;
 
+      // Film choisi au hasard
       const targetInOriginal = Math.floor(Math.random() * movies.length);
-      const targetIndex = (cycles - 1) * movies.length + targetInOriginal;
 
-      // Nouvelle ligne : forcer un déplacement qui tombe pile sur un multiple
-      let translateY = (targetIndex - centerOffset) * itemHeight;
-      translateY = Math.round(translateY / itemHeight) * itemHeight;
+      // ---- NOUVELLE LOGIQUE ----
+      const duration = 5; // secondes fixes
+      const pixelsPerSecond = 800; // vitesse constante
+      const totalDistance = pixelsPerSecond * duration;
 
-      const maxTranslateY = (extendedList.length - visibleItems) * itemHeight;
-      const finalTranslateY = Math.min(translateY, maxTranslateY);
+      // Position de départ du film choisi pour qu'il soit au centre à la fin
+      const stopOffset = (centerOffset + targetInOriginal) * itemHeight;
+      let finalTranslateY = totalDistance - stopOffset;
 
-      const pixelsPerSecond = 800;
-      const duration = finalTranslateY / pixelsPerSecond;
+      // On aligne sur la grille
+      finalTranslateY = Math.round(finalTranslateY / itemHeight) * itemHeight;
+
+      // On évite les valeurs négatives (cas très petit nombre de films)
+      if (finalTranslateY < 0) finalTranslateY = 0;
 
       wrapper.style.transition = "none";
       wrapper.style.transform = "translateY(0px)";
-      void wrapper.offsetHeight;
+      void wrapper.offsetHeight; // forcer le reflow
 
       wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
       wrapper.style.transform = `translateY(-${finalTranslateY}px)`;
@@ -212,8 +217,10 @@ function pickRandomMovie() {
 }
 
 
+
 function showFeedback(message, success = true) {
   feedback.textContent = message;
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
