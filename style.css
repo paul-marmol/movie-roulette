@@ -240,7 +240,7 @@ body {
 }
 
 .roulette-item.highlight {
-  background-color: #f18baa;
+  background-color: #66ffff;
   color: black;
   font-weight: bold;
 }
@@ -277,7 +277,7 @@ body {
   flex: 0 0 auto;
   background: none;
   border: none;
-  color: #5dfd;
+  color: #ff6666;
   font-weight: bold;
   cursor: pointer;
   font-size: 1.1rem;
@@ -321,4 +321,5 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
