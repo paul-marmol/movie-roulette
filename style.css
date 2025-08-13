@@ -1,0 +1,323 @@
+/* === RESET & STYLES DE BASE === */
+body {
+  background-color: #0b1d33;
+  color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* === SECTION CONNEXION === */
+#authSection {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 1rem;
+  width: 100%;
+  max-width: 480px;
+  background-color: #1b2a42;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#authSection h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#authSection input[type="email"],
+#authSection input[type="password"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+  padding: 1rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #152238;
+  color: #f0f0f0;
+  transition: border-color 0.3s;
+}
+
+#loginButton {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+  padding: 1rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #1e90ff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#loginButton:hover {
+  background-color: #1573cc;
+}
+
+#authSection input::placeholder {
+  color: #8fa3bf;
+}
+
+#authSection input:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
+
+/* === SECTION PRINCIPALE === */
+#appSection {
+  background-color: #1b2a42;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+#appSection .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+#appSection .header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #ffffff;
+}
+
+#logoutButton {
+  background-color: #ff5c5c;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+#logoutButton:hover {
+  background-color: #cc4a4a;
+}
+
+/* === AJOUT DE FILMS === */
+.input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+#movieInput {
+  flex: 1 1 65%;
+  min-width: 0;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3a4a6a;
+  background-color: #152238;
+  color: #f0f0f0;
+  transition: border-color 0.3s;
+}
+
+#movieInput::placeholder {
+  color: #8fa3bf;
+}
+
+#movieInput:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
+
+#addButton {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex: 0 0 auto;
+}
+
+#addButton:disabled {
+  background-color: #557abf;
+  cursor: not-allowed;
+}
+
+#addButton:not(:disabled):hover {
+  background-color: #1573cc;
+}
+
+/* === FEEDBACK === */
+#feedback {
+  height: 24px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #00ff9d;
+}
+
+/* === BOUTON TIRAGE === */
+#pickButton {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #1e90ff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 0.8rem;
+}
+
+#pickButton:hover {
+  background-color: #1573cc;
+}
+
+/*ROULETTE*/
+#rouletteContainer {
+  display: block;
+  width: 100%;
+  height: 114px; /* 3 items * 38px */
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 2rem;
+  border: 2px solid #f18baa;
+  border-radius: 8px;
+}
+
+#rouletteWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.roulette-item {
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  opacity: 0.4;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+
+  white-space: nowrap;             /* une seule ligne */
+  overflow: hidden;                /* cache le surplus */
+  text-overflow: ellipsis;         /* ajoute "..." si trop long */
+}
+
+.roulette-item.center {
+  opacity: 1;
+  transform: scale(1.05);
+  color: #ffcc00;
+}
+
+.roulette-item.highlight {
+  background-color: #f18baa;
+  color: black;
+  font-weight: bold;
+}
+
+/* === LISTE DES FILMS === */
+#movieList {
+  list-style: none;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #152238;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  margin: 0;
+}
+
+#movieList li {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #2f3f59;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0; /* Important pour que flex shrink marche bien */
+}
+
+#movieList li span {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#movieList li button {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  color: #ff6666;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 0.25rem;
+  transition: color 0.3s;
+  align-self: center;
+}
+
+@media (max-width: 480px) {
+  #movieList li {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+#movieList li button:hover {
+  color: #ff2a2a;
+}
+
+
+@media (max-width: 480px) {
+  #authSection h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+/* === AUTOFILL CORRECTIONS === */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #152238 inset !important;
+  -webkit-text-fill-color: #f0f0f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+input:-moz-autofill {
+  box-shadow: 0 0 0 1000px #152238 inset !important;
+  -moz-text-fill-color: #f0f0f0 !important;
+  margin-bottom: 0.75rem !important;
+}

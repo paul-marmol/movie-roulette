@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movie Roulette</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+  <!-- Zone de connexion -->
+  <div id="authSection">
+    <h2>🎬 Movie Roulette</h2>
+    <input type="email" id="emailInput" placeholder="Email" />
+    <input type="password" id="passwordInput" placeholder="Password" />
+    <button id="loginButton">Log in</button>
+  </div>
+
+  <!-- Interface principale -->
+  <div id="appSection" style="display:none;">
+    <div class="header">
+      <h1>🎬 OK TIGER WOODS</h1>
+      <button id="logoutButton">Log out</button>
+    </div>
+
+    <div class="input-wrapper">
+      <input type="text" id="movieInput" placeholder="Add a movie" />
+      <button id="addButton" disabled>+</button>
+    </div>
+
+    <div id="feedback"></div>
+
+    <button id="pickButton">🎲 Lance le tirage ptite salope</button>
+
+    <div id="rouletteContainer">
+      <div id="rouletteWrapper"></div>
+    </div>
+    
+    <ul id="movieList"></ul>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
