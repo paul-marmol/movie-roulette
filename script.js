@@ -154,7 +154,7 @@ function pickRandomMovie() {
     wrapper.innerHTML = "";
 
     // --- Paramètres vitesse/durée constants ---
-    const DURATION = 3;           // secondes (modifiable)
+    const DURATION = 5;           // secondes (modifiable)
     const SPEED = 800;            // px/s (modifiable)
     const totalDistance = Math.floor((DURATION * SPEED) / itemHeight) * itemHeight;
 
@@ -216,5 +216,6 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
 
