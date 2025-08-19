@@ -131,85 +131,78 @@ function pickRandomMovie() {
   const moviesRef = ref(db, "movies");
   get(moviesRef).then((snapshot) => {
     const data = snapshot.val();
-    if (!data) {
-      pickButton.disabled = false;
-      return;
-    }
+    if (!data) { pickButton.disabled = false; return; }
 
     const movies = Object.values(data).map(m => m.title);
-    if (movies.length === 0) {
-      pickButton.disabled = false;
-      return;
-    }
+    if (movies.length === 0) { pickButton.disabled = false; return; }
 
     const wrapper = document.getElementById("rouletteWrapper");
-    if (!wrapper) {
-      console.error("Element #rouletteWrapper manquant.");
-      pickButton.disabled = false;
-      return;
-    }
+    if (!wrapper) { console.error("Element #rouletteWrapper manquant."); pickButton.disabled = false; return; }
 
+    // Nettoyage
     wrapper.innerHTML = "";
 
     const visibleItems = 3;
     const centerOffset = Math.floor(visibleItems / 2);
 
-    // On répète un peu la liste pour que ça donne du mouvement
-    const extendedList = [];
-    for (let i = 0; i < 20; i++) extendedList.push(...movies); // répéter beaucoup pour "remplir"
-    extendedList.push(...movies.slice(0, visibleItems)); // buffer de fin
+    // --- Mesure fiable de la hauteur d'un item ---
+    const probe = document.createElement("div");
+    probe.className = "roulette-item";
+    probe.textContent = ".";
+    wrapper.appendChild(probe);
+    const itemHeight = probe.offsetHeight || 38; // sécurisé si CSS change
+    wrapper.innerHTML = "";
 
-    extendedList.forEach(title => {
+    // --- Paramètres vitesse/durée constants ---
+    const DURATION = 3;           // secondes (modifiable)
+    const SPEED = 800;            // px/s (modifiable)
+    const totalDistance = Math.floor((DURATION * SPEED) / itemHeight) * itemHeight;
+
+    // Film choisi (dans la liste "originale")
+    const targetInOriginal = Math.floor(Math.random() * movies.length);
+
+    // Offset pour que le film choisi tombe au centre à la fin
+    const stopOffset = (centerOffset + targetInOriginal) * itemHeight;
+
+    // Nombre d'items nécessaires pour couvrir toute la distance + arrêt + buffer visible
+    const neededCount = Math.ceil((totalDistance + stopOffset) / itemHeight) + visibleItems + 2;
+
+    // Remplir le wrapper avec juste ce qu'il faut d'items, en répétant les films
+    for (let i = 0; i < neededCount; i++) {
       const div = document.createElement("div");
       div.className = "roulette-item";
-      div.textContent = title;
+      div.textContent = movies[i % movies.length];
       wrapper.appendChild(div);
+    }
+
+    // Calcul du translate final (aligné sur la grille pour un arrêt net)
+    let finalTranslateY = totalDistance - stopOffset;
+    finalTranslateY = Math.max(0, Math.floor(finalTranslateY / itemHeight) * itemHeight);
+
+    // Sécurité: ne jamais dépasser le contenu existant
+    const maxTranslateY = (neededCount - visibleItems) * itemHeight;
+    if (finalTranslateY > maxTranslateY) finalTranslateY = maxTranslateY;
+
+    // Animation
+    wrapper.style.transition = "none";
+    wrapper.style.transform = "translateY(0px)";
+    void wrapper.offsetHeight; // reflow
+
+    wrapper.style.transition = `transform ${DURATION}s cubic-bezier(0.33, 1, 0.68, 1)`;
+    wrapper.style.transform = `translateY(-${finalTranslateY}px)`;
+
+    wrapper.addEventListener("transitionend", function handler() {
+      wrapper.removeEventListener("transitionend", handler);
+
+      // Mise en valeur de l'item au centre
+      const items = wrapper.querySelectorAll(".roulette-item");
+      items.forEach(it => it.classList.remove("center", "highlight"));
+      const highlightIndex = (finalTranslateY / itemHeight) + centerOffset;
+      const selected = items[highlightIndex];
+      if (selected) selected.classList.add("center", "highlight");
+
+      pickButton.disabled = false;
     });
-
-    setTimeout(() => {
-      const item = wrapper.querySelector(".roulette-item");
-      const itemHeight = item?.offsetHeight || 38;
-
-      // Film choisi au hasard
-      const targetInOriginal = Math.floor(Math.random() * movies.length);
-
-      // ---- NOUVELLE LOGIQUE ----
-      const duration = 5; // secondes fixes
-      const pixelsPerSecond = 800; // vitesse constante
-      const totalDistance = pixelsPerSecond * duration;
-
-      // Position de départ du film choisi pour qu'il soit au centre à la fin
-      const stopOffset = (centerOffset + targetInOriginal) * itemHeight;
-      let finalTranslateY = totalDistance - stopOffset;
-
-      // On aligne sur la grille
-      finalTranslateY = Math.round(finalTranslateY / itemHeight) * itemHeight;
-
-      // On évite les valeurs négatives (cas très petit nombre de films)
-      if (finalTranslateY < 0) finalTranslateY = 0;
-
-      wrapper.style.transition = "none";
-      wrapper.style.transform = "translateY(0px)";
-      void wrapper.offsetHeight; // forcer le reflow
-
-      wrapper.style.transition = `transform ${duration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-      wrapper.style.transform = `translateY(-${finalTranslateY}px)`;
-
-      wrapper.addEventListener("transitionend", function handler() {
-        wrapper.removeEventListener("transitionend", handler);
-
-        const items = wrapper.querySelectorAll(".roulette-item");
-        items.forEach(item => item.classList.remove("center", "highlight"));
-
-        const highlightIndex = Math.round(finalTranslateY / itemHeight) + centerOffset;
-        const selected = items[highlightIndex];
-        if (selected) {
-          selected.classList.add("center", "highlight");
-        }
-
-        pickButton.disabled = false;
-      });
-    }, 0);
   }).catch((err) => {
     console.error("Erreur lors de la récupération des films :", err);
     pickButton.disabled = false;
@@ -223,4 +216,5 @@ function showFeedback(message, success = true) {
   feedback.style.color = success ? "#00ff9d" : "#ff5555";
   setTimeout(() => feedback.textContent = "", 3000);
 }
+
 
