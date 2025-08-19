@@ -222,7 +222,7 @@ body {
   width: 100%;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #f18baa;
   opacity: 0.4;
   transform: scale(0.9);
   transition: all 0.3s ease;
@@ -321,5 +321,6 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
