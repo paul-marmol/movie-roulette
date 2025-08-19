@@ -222,7 +222,7 @@ body {
   width: 100%;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #f18baa;
+  color: #ffffff;
   opacity: 0.4;
   transform: scale(0.9);
   transition: all 0.3s ease;
@@ -240,7 +240,7 @@ body {
 }
 
 .roulette-item.highlight {
-  background-color: #66ffff;
+  background-color: #f18baa;
   color: black;
   font-weight: bold;
 }
@@ -321,6 +321,7 @@ input:-moz-autofill {
   -moz-text-fill-color: #f0f0f0 !important;
   margin-bottom: 0.75rem !important;
 }
+
 
 
 
