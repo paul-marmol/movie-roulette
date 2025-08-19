@@ -171,7 +171,6 @@ body {
   height: 24px;
   text-align: center;
   font-weight: 500;
-  margin-bottom: 1rem;
   color: #00ff9d;
 }
 
@@ -187,7 +186,6 @@ body {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-bottom: 0.8rem;
 }
 
 #pickButton:hover {
@@ -201,7 +199,6 @@ body {
   height: 114px; /* 3 items * 38px */
   overflow: hidden;
   position: relative;
-  margin-bottom: 2rem;
   border: 2px solid #f18baa;
   border-radius: 8px;
 }
@@ -322,6 +319,14 @@ input:-moz-autofill {
   margin-bottom: 0.75rem !important;
 }
 
+/* === ESPACEMENTS ENTRE LES BLOCS === */
+#feedback,
+#pickButton,
+#rouletteContainer,
+#movieList {
+  margin-bottom: 1.2rem; /* espacement uniforme */
+}
 
-
-
+#movieList {
+  margin-bottom: 0; /* pas d’espace après la liste finale */
+}
